@@ -16,3 +16,4 @@ Check out the live site here: [https://shashiprakash610.github.io/portfolio/](ht
 2. Install dependencies: `npm install`
 3. Create a `.env` file with your `VITE_OPENROUTER_API_KEY`
 4. Run locally: `npm run dev`
+ 
