@@ -1,0 +1,655 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Terminal-style global styling - DARK THEME (unchanged) */
+:root {
+    --terminal-bg: #0a0a0a;
+    --terminal-surface: #1a1a1a;
+    --terminal-border: #333333;
+    --terminal-green: #00ff41;
+    --terminal-amber: #ffb000;
+    --terminal-cyan: #00ffff;
+    --terminal-red: #ff4444;
+    --terminal-text: #e0e0e0;
+    --terminal-text-dim: #888888;
+}
+
+/* Netflix-style theme variables */
+:root:not(.dark) {
+    /* Netflix dark background */
+    --terminal-bg: #141414;
+    --terminal-surface: #1f1f1f;
+    --terminal-border: #2f2f2f;
+    
+    /* Netflix accent colors */
+    --terminal-green: #46d369; /* Netflix green */
+    --terminal-amber: #f5a623; /* Gold accent */
+    --terminal-cyan: #54b9c5; /* Teal accent */
+    --terminal-red: #E50914; /* Netflix red */
+    --terminal-purple: #a855f7; /* Purple accent */
+    
+    /* Text colors */
+    --terminal-text: #ffffff;
+    --terminal-text-dim: #b3b3b3;
+    
+    /* Additional theme colors */
+    --terminal-accent-bg: #2f2f2f;
+    --terminal-hover: #2a2a2a;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    background: var(--terminal-bg);
+    color: var(--terminal-text);
+    font-family: 'JetBrains Mono', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: var(--terminal-bg);
+    color: var(--terminal-text);
+    line-height: 1.6;
+}
+
+/* Light theme specific body background */
+body:not(.dark) {
+    background: linear-gradient(135deg, #fef3f2 0%, #f0f9ff 100%);
+    min-height: 100vh;
+}
+
+/* Terminal window styling */
+.terminal-window {
+    background: var(--terminal-surface);
+    border: 1px solid var(--terminal-border);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Light theme terminal window enhancement */
+:root:not(.dark) .terminal-window {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.terminal-window::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    background: var(--terminal-border);
+    border-bottom: 1px solid var(--terminal-border);
+}
+
+/* Netflix theme terminal header */
+:root:not(.dark) .terminal-window::before {
+    background: #1f1f1f;
+    border-bottom: 1px solid #2f2f2f;
+}
+
+.terminal-window::after {
+    content: '● ● ●';
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    color: #ff5f56;
+    font-size: 12px;
+    z-index: 10;
+}
+
+/* Netflix theme dots */
+:root:not(.dark) .terminal-window::after {
+    color: #E50914;
+}
+
+.terminal-content {
+    padding: 40px 20px 20px;
+    background: var(--terminal-surface);
+}
+
+/* Terminal prompt styling */
+.terminal-prompt {
+    color: var(--terminal-green);
+    font-weight: bold;
+}
+
+.terminal-command {
+    color: var(--terminal-cyan);
+}
+
+.terminal-output {
+    color: var(--terminal-text);
+    margin-left: 20px;
+}
+
+/* Typing animation */
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blink {
+    0%, 50% { border-right-color: transparent; }
+    51%, 100% { border-right-color: var(--terminal-green); }
+}
+
+.typing-effect {
+    overflow: hidden;
+    border-right: 2px solid var(--terminal-green);
+    white-space: nowrap;
+    margin: 0 auto;
+    animation: typing 3s steps(40, end), blink 1s infinite;
+}
+
+/* Matrix-style background effect */
+.matrix-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.03;
+    background-image: repeating-linear-gradient(
+        0deg,
+        var(--terminal-green) 0px,
+        transparent 1px,
+        transparent 20px,
+        var(--terminal-green) 21px
+    );
+}
+
+/* Netflix theme background pattern */
+:root:not(.dark) .matrix-bg {
+    opacity: 0.05;
+    background-image: repeating-linear-gradient(
+        0deg,
+        #E50914 0px,
+        transparent 1px,
+        transparent 20px,
+        #E50914 21px
+    );
+}
+
+/* Skill category styling */
+.skill-category {
+    background: var(--terminal-surface);
+    border: 1px solid var(--terminal-border);
+    border-left: 3px solid var(--terminal-green);
+    margin-bottom: 16px;
+    padding: 16px;
+    border-radius: 4px;
+}
+
+/* Netflix theme skill category */
+:root:not(.dark) .skill-category {
+    border-left: 3px solid #E50914;
+    box-shadow: 0 2px 8px 0 rgba(229, 9, 20, 0.15);
+    transition: all 0.3s ease;
+}
+
+:root:not(.dark) .skill-category:hover {
+    box-shadow: 0 4px 12px -1px rgba(229, 9, 20, 0.25);
+    transform: translateY(-2px);
+}
+
+.skill-category h3 {
+    color: var(--terminal-green);
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.skill-tag {
+    display: inline-block;
+    background: rgba(0, 255, 65, 0.1);
+    color: var(--terminal-green);
+    padding: 4px 8px;
+    margin: 2px 4px 2px 0;
+    border: 1px solid rgba(0, 255, 65, 0.3);
+    border-radius: 3px;
+    font-size: 12px;
+    font-family: inherit;
+}
+
+/* Netflix theme skill tags */
+:root:not(.dark) .skill-tag {
+    background: rgba(229, 9, 20, 0.15);
+    color: #ffffff;
+    border: 1px solid #E50914;
+    font-weight: 500;
+}
+
+/* Timeline terminal styling */
+.timeline-item {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 20px;
+    border-left: 2px solid var(--terminal-border);
+}
+
+/* Netflix theme timeline */
+:root:not(.dark) .timeline-item {
+    border-left: 3px solid #E50914;
+}
+
+.timeline-item::before {
+    content: '>';
+    position: absolute;
+    left: -8px;
+    top: 0;
+    background: var(--terminal-bg);
+    color: var(--terminal-green);
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* Netflix theme timeline marker */
+:root:not(.dark) .timeline-item::before {
+    background: #141414;
+    color: #E50914;
+}
+
+.timeline-year {
+    color: var(--terminal-amber);
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* Netflix theme timeline year */
+:root:not(.dark) .timeline-year {
+    color: #ffffff;
+    background: #E50914;
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.timeline-title {
+    color: var(--terminal-cyan);
+    font-weight: bold;
+    margin: 4px 0;
+}
+
+/* Netflix theme timeline title */
+:root:not(.dark) .timeline-title {
+    color: #ffffff;
+}
+
+.timeline-company {
+    color: var(--terminal-text-dim);
+    font-size: 12px;
+}
+
+/* Project cards terminal styling */
+.project-card {
+    background: var(--terminal-surface);
+    border: 1px solid var(--terminal-border);
+    border-radius: 4px;
+    padding: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.project-card:hover {
+    border-color: var(--terminal-green);
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+}
+
+/* Netflix theme project cards */
+:root:not(.dark) .project-card {
+    background: #1f1f1f;
+    border: 1px solid #2f2f2f;
+    box-shadow: 0 2px 8px 0 rgba(229, 9, 20, 0.15);
+    transition: all 0.3s ease;
+}
+
+:root:not(.dark) .project-card:hover {
+    border-color: #E50914;
+    box-shadow: 0 10px 20px -3px rgba(229, 9, 20, 0.3);
+    transform: translateY(-4px);
+}
+
+.project-title {
+    color: var(--terminal-cyan);
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+/* Netflix theme project title */
+:root:not(.dark) .project-title {
+    color: #E50914;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: unset;
+    background-clip: unset;
+}
+
+.project-description {
+    color: var(--terminal-text);
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.stack-tag {
+    background: rgba(255, 176, 0, 0.1);
+    color: var(--terminal-amber);
+    padding: 2px 6px;
+    border: 1px solid rgba(255, 176, 0, 0.3);
+    border-radius: 3px;
+    font-size: 11px;
+}
+
+/* Netflix theme stack tags */
+:root:not(.dark) .stack-tag {
+    background: rgba(229, 9, 20, 0.2);
+    color: #ffffff;
+    border: 1px solid #E50914;
+    font-weight: 500;
+}
+
+/* Button styling */
+.terminal-button {
+    background: transparent;
+    border: 1px solid var(--terminal-green);
+    color: var(--terminal-green);
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.terminal-button:hover {
+    background: var(--terminal-green);
+    color: var(--terminal-bg);
+}
+
+/* Netflix theme buttons */
+:root:not(.dark) .terminal-button {
+    border: 2px solid #E50914;
+    color: #E50914;
+    font-weight: 600;
+}
+
+:root:not(.dark) .terminal-button:hover {
+    background: #E50914;
+    color: #ffffff;
+    box-shadow: 0 4px 6px -1px rgba(229, 9, 20, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Navigation styling */
+.terminal-nav {
+    background: var(--terminal-surface);
+    border-bottom: 1px solid var(--terminal-border);
+    backdrop-filter: blur(10px);
+}
+
+/* Netflix theme navigation */
+:root:not(.dark) .terminal-nav {
+    background: rgba(20, 20, 20, 0.95);
+    border-bottom: 1px solid #2f2f2f;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.5);
+}
+
+.nav-link {
+    color: var(--terminal-text-dim);
+    text-decoration: none;
+    padding: 4px 8px;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--terminal-green);
+    background: rgba(0, 255, 65, 0.1);
+}
+
+/* Netflix theme - Work Experience Timeline Styling */
+:root:not(.dark) .timeline-vertical-line {
+    background-color: #E50914;
+    width: 2px;
+}
+
+:root:not(.dark) .timeline-dot {
+    background-color: #E50914;
+    border-color: #141414;
+}
+
+:root:not(.dark) .experience-card {
+    background-color: #1f1f1f;
+    border-color: #2f2f2f;
+}
+
+:root:not(.dark) .experience-header {
+    border-color: #2f2f2f;
+}
+
+:root:not(.dark) .experience-header:hover {
+    background-color: #2a2a2a;
+}
+
+:root:not(.dark) .experience-title {
+    color: #ffffff;
+}
+
+:root:not(.dark) .experience-company {
+    color: #E50914;
+}
+
+:root:not(.dark) .experience-year {
+    background-color: #E50914;
+    color: #ffffff;
+}
+
+:root:not(.dark) .experience-location-icon {
+    color: #E50914;
+}
+
+:root:not(.dark) .experience-location {
+    color: #b3b3b3;
+}
+
+:root:not(.dark) .experience-description {
+    color: #b3b3b3;
+}
+
+:root:not(.dark) .experience-details {
+    border-color: #2f2f2f;
+}
+
+:root:not(.dark) .experience-section-title {
+    color: #E50914;
+}
+
+:root:not(.dark) .experience-bullet {
+    color: #E50914;
+}
+
+:root:not(.dark) .experience-text {
+    color: #b3b3b3;
+}
+
+:root:not(.dark) .experience-tech-tag {
+    background-color: rgba(229, 9, 20, 0.2);
+    color: #ffffff;
+    border-color: #E50914;
+}
+
+:root:not(.dark) .experience-expand-btn {
+    color: #E50914;
+}
+
+:root:not(.dark) .experience-expand-btn:hover {
+    color: #ff0a16;
+}
+
+/* Netflix theme - Education Timeline Styling */
+:root:not(.dark) .education-card {
+    background-color: #1f1f1f;
+    border-color: #2f2f2f;
+}
+
+:root:not(.dark) .education-header {
+    border-color: #2f2f2f;
+}
+
+:root:not(.dark) .education-title {
+    color: #ffffff;
+}
+
+:root:not(.dark) .education-institution {
+    color: #E50914;
+}
+
+:root:not(.dark) .education-year {
+    background-color: #E50914;
+    color: #ffffff;
+}
+
+:root:not(.dark) .education-location-icon {
+    color: #E50914;
+}
+
+:root:not(.dark) .education-location {
+    color: #b3b3b3;
+}
+
+:root:not(.dark) .education-description {
+    color: #b3b3b3;
+}
+
+:root:not(.dark) .education-expand-btn {
+    color: #E50914;
+}
+
+:root:not(.dark) .education-expand-btn:hover {
+    color: #ff0a16;
+}
+
+:root:not(.dark) .education-modules {
+    background-color: #2a2a2a;
+}
+
+:root:not(.dark) .education-module-category {
+    color: #ffffff;
+    border-color: #2f2f2f;
+}
+
+:root:not(.dark) .education-module-item {
+    background-color: #1f1f1f;
+    border-color: #2f2f2f;
+}
+
+:root:not(.dark) .education-module-bullet {
+    color: #E50914;
+}
+
+:root:not(.dark) .education-module-text {
+    color: #b3b3b3;
+}
+
+
+
+/* Light theme nav links */
+:root:not(.dark) .nav-link {
+    color: #64748b;
+    font-weight: 500;
+}
+
+:root:not(.dark) .nav-link:hover {
+    color: #14b8a6;
+    background: linear-gradient(135deg, #d1fae5, #dbeafe);
+}
+
+/* Form styling */
+.terminal-form {
+    background: var(--terminal-surface);
+    border: 1px solid var(--terminal-border);
+    border-radius: 4px;
+    padding: 20px;
+}
+
+/* Light theme forms */
+:root:not(.dark) .terminal-form {
+    background: #ffffff;
+    border: 1px solid #e0e7ff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.terminal-input {
+    background: var(--terminal-bg);
+    border: 1px solid var(--terminal-border);
+    color: var(--terminal-text);
+    padding: 8px 12px;
+    border-radius: 3px;
+    font-family: inherit;
+    font-size: 14px;
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.terminal-input:focus {
+    outline: none;
+    border-color: var(--terminal-green);
+    box-shadow: 0 0 5px rgba(0, 255, 65, 0.3);
+}
+
+/* Light theme inputs */
+:root:not(.dark) .terminal-input {
+    background: #ffffff;
+    border: 2px solid #e0e7ff;
+    color: #1e293b;
+}
+
+:root:not(.dark) .terminal-input:focus {
+    border-color: #14b8a6;
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+}
+
+.terminal-textarea {
+    background: var(--terminal-bg);
+    border: 1px solid var(--terminal-border);
+    color: var(--terminal-text);
+    padding: 8px 12px;
+    border-radius: 3px;
+    font-family: inherit;
+    font-size: 14px;
+    width: 100%;
+    margin-bottom: 12px;
+    resize: vertical;
+    min-height: 100px;
+}
+
+.terminal-textarea:focus {
+    outline: none;
+    border-color: var(--terminal-green);
+    box-shadow: 0 0 5px rgba(0, 255, 65, 0.3);
+}
+
+/* Light theme textarea */
+:root:not(.dark) .terminal-textarea {
+    background: #ffffff;
+    border: 2px solid #e0e7ff;
+    color: #1e293b;
+}
+
+:root:not(.dark) .terminal-textarea:focus {
+    border-color: #14b8a6;
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+}
