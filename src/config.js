@@ -26,7 +26,7 @@ export const PROJECTS = [
         title: 'Agentic Research Assistant',
         description: 'An AI-powered research assistant featuring a multi-agent architecture for intelligent routing, document summarization, and data extraction using RAG with ChromaDB.',
         stack: ['FastAPI', 'LangChain', 'ChromaDB', 'React', 'TypeScript', 'Groq API'],
-        image: '/assets/agentic_research.jpg',
+        image: '/assets/rag.jpg',
     },
     {
         slug: 'thesis-autoprice',
