@@ -8,7 +8,7 @@ export const SITE = {
     location: 'Paderborn, Germany',
     socials: {
         github: 'https://github.com/shashiprakash', // Updated placeholder
-        linkedin: 'https://linkedin.com/in/shashiprakash' // Updated placeholder
+        linkedin: 'https://www.linkedin.com/in/shashi-prakash-01372bb5/' // Updated from placeholder
     },
 }
 
@@ -22,17 +22,17 @@ export const PROJECTS = [
         image: '/assets/cycling.jpg',
     },
     {
-        slug: 'step-counting-sensor-data',
-        title: 'Step Counting with Sensor Data',
-        description: 'Developed a robust pipeline to accurately count left and right steps from raw IMU sensor data using signal processing and machine learning.',
-        stack: ['Python', 'SciPy', 'PyTorch', 'XGBoost', 'Signal Processing'],
-        image: '/assets/steps.jpg',
+        slug: 'agentic-research-assistant',
+        title: 'Agentic Research Assistant',
+        description: 'An AI-powered research assistant featuring a multi-agent architecture for intelligent routing, document summarization, and data extraction using RAG with ChromaDB.',
+        stack: ['FastAPI', 'LangChain', 'ChromaDB', 'React', 'TypeScript', 'Groq API'],
+        image: '/assets/agentic_research.jpg',
     },
     {
-        slug: 'thesis-knowledge-graph-embeddings',
-        title: 'Master Thesis — Knowledge Graph Embeddings',
-        description: 'Developed function-based knowledge graph embeddings with Neural Architecture Search to optimize performance and enhanced LLM grounding.',
-        stack: ['PyTorch', 'NAS', 'Knowledge Graphs', 'LLMs'],
+        slug: 'thesis-autoprice',
+        title: 'Master Thesis — AutoPRICE',
+        description: 'Developed a RAG-powered web tool to automate Google Play Data Safety Section (DSS) compliance for Android apps, featuring intelligent form-filling and interactive privacy dashboards.',
+        stack: ['Python', 'Flask', 'RAG', 'D3.js', 'Docker', 'Android Analysis'],
         image: '/assets/thesis.jpg',
     },
     {
@@ -148,16 +148,38 @@ export const WORK_EXPERIENCE = [
 
 export const EDUCATION = [
     {
-        year: 'Graduated Aug 2025',
-        title: 'MS in Computer Science',
+        year: '2020 – 2025',
+        title: 'MS in Software Engineering',
         institution: 'University of Paderborn',
         location: 'Paderborn, Germany',
-        description: 'Master Thesis: Privacy Data Labelling Web Tool (Supervisor: Prof. Dr. Eric Bodden). Focus on identifies privacy-related data for Google Play DSS compliance.',
+        description: 'Master Thesis: Automatically Generating the Data Safety Section Using AutoPRICE (Supervisor: Prof. Dr. Eric Bodden). Developed a web-based extension of a command-line tool to identify and label privacy-related data in Android apps, assisting developers with Google Play Data Safety Section (DSS) compliance. The solution features an intelligent Retrieval-Augmented Generation (RAG) pipeline to automate the data filling form process, significantly increasing accuracy and efficiency. Implemented using Flask, D3.js, and Docker, and validated through user surveys and usability studies with Android developers.',
         modules: {
-            'Thesis': [
-                'Developed a web-based tool using Flask and D3.js.',
-                'Implemented automated metadata extraction and interactive dashboards.',
-                'Containerized with Docker and conducted usability studies.'
+            'Software Engineering': [
+                'Data-Driven Innovation and Engineering',
+                'Model-Based Systems Engineering',
+                'Software Quality Assurance'
+            ],
+            'Networks and Communication': [
+                'Mobile Communication',
+                'Networked Embedded Systems'
+            ],
+            'Intelligence and Data': [
+                'Computational Argumentation',
+                'Planning and Heuristic Search'
+            ],
+            'Data Science': [
+                'Data Science in Industrial Applications'
+            ],
+            'Seminars & Projects': [
+                'Seminar: Gems of Theoretical Computer Science',
+                'Seminar: Special Topics on System-of-Systems Engineering',
+                'Project Group: Virtual Technologies in Engineering'
+            ],
+            'Thesis (AutoPRICE)': [
+                'Developed "AutoPRICE", a web-based privacy labeling tool using Flask and D3.js.',
+                'Integrated a RAG pipeline to intelligently automate the filling of complex data safety forms.',
+                'Implemented automated metadata extraction and interactive dashboards for real-time visualization.',
+                'Containerized with Docker for cross-platform deployment and conducted developer usability studies.'
             ]
         }
     },
