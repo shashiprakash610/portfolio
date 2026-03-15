@@ -7,7 +7,7 @@ export const SITE = {
     phone: '+49-15758544726',
     location: 'Paderborn, Germany',
     socials: {
-        github: 'https://github.com/shashiprakash', // Updated placeholder
+        github: 'https://github.com/shashiprakash610', // Updated to primary account
         linkedin: 'https://www.linkedin.com/in/shashi-prakash-01372bb5/' // Updated from placeholder
     },
 }
