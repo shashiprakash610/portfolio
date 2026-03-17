@@ -43,10 +43,10 @@ export const PROJECTS = [
         image: '/assets/rag.jpg',
     },
     {
-        slug: 'financial-markets-strategy',
-        title: 'Financial Market Investment Strategies',
-        description: 'Time-series forecasting for crypto and equities, sentiment ingestion, and derivatives pricing with Quantlib to stress-test strategies.',
-        stack: ['Python', 'Quantlib', 'Time-Series', 'Forecasting'],
+        slug: 'smart-quality-monitoring',
+        title: 'Smart Quality Monitoring – Kruse GmbH',
+        description: 'Designed a data analytics pipeline to identify faulty washing machine parts by integrating multi-source logs (ERP, MES, QMS) with high-frequency vibration sensor data. Merged 1,500+ production records and visualized 20kHz vibration signals to identify bearing faults.',
+        stack: ['Python', 'Pandas', 'Matplotlib', 'Time-Series', 'Big Data'],
         image: '/assets/finance.jpg',
     },
 ]
