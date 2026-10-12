@@ -70,21 +70,34 @@ export const SKILLS = {
 
 export const WORK_EXPERIENCE = [
     {
-        year: 'Nov 2025 – Present',
+        year: 'Jun 2026 – Present',
+        title: 'Student Research Data Engineer',
+        company: 'ZIH, Technische Universität Dresden',
+        location: 'Dresden, Germany',
+        description: 'Building Python and Django services that automate research workflows, standardize metadata, and support secure research data exchange.',
+        responsibilities: [
+            'Developed Python and Django backend services integrating REDCap REST APIs to automate research workflows and metadata management across multiple projects.',
+            'Built metadata transformation and validation pipelines to map hierarchical research data into standardized formats for data exchange and repository submission.',
+            'Implemented encrypted credential storage, project-specific request validation, scoped file access, and audit logging for security and traceability.',
+            'Built Docker-based deployment infrastructure with PostgreSQL, Gunicorn, and Nginx on Linux, including health checks and backup and recovery scripts.',
+            'Added GitLab CI pipelines for automated testing and deployment validation.'
+        ],
+        techStack: ['Python', 'Django', 'REDCap REST API', 'PostgreSQL', 'Docker', 'Gunicorn', 'Nginx', 'Linux', 'GitLab CI']
+    },
+    {
+        year: 'Mar 2025 – Present',
         title: 'AI Research Engineer',
         company: 'ZELTASK',
-        location: 'Germany',
-        description: 'Architecting enterprise-grade RAG systems for structured/unstructured data. Developed WhatsApp-based AI Copilot via Kapso Cloud API.',
+        location: 'Leipzig, Germany',
+        description: 'Developing enterprise AI assistants that connect conversational interfaces with operational workflows, combining Python backend services, RAG, and enterprise API integrations.',
         responsibilities: [
-            'Architecting and developing enterprise-grade Retrieval-Augmented Generation (RAG) systems.',
-            'Designed and deployed a WhatsApp-based AI Copilot using Kapso Cloud API.',
-            'Built scalable document ingestion pipelines with semantic chunking and BGE model embeddings.',
-            'Integrated LLM-driven response generation with context-aware retrieval to reduce hallucinations.',
-            'Engineered backend integrations with Payload CMS APIs and multi-tenant support.',
-            'Developed structured logging and evaluation frameworks (200+ query scenarios).',
-            'Led system design for production readiness, including rate-limit handling and webhook validation.'
+            'Developed enterprise AI assistants using Python, LLMs, LangChain, and Retrieval-Augmented Generation (RAG) for operational workflows and context-aware question answering.',
+            'Built FastAPI services and enterprise REST API integrations with PostgreSQL and Redis, supporting authentication, role-based permissions, tool execution, and conversational memory.',
+            'Implemented document ingestion, embedding, and vector-search pipelines; evaluated retrieval quality, intent classification, and prompt performance using Promptfoo and Giskard.',
+            'Engineered automated evaluations for webhook idempotency and concurrency to detect duplicate processing and assess reliability across restarts and multiple workers.',
+            'Collaborated with product owners and business stakeholders to translate operational requirements into AI-assisted workflows integrated with enterprise systems.'
         ],
-        techStack: ['Python', 'RAG', 'LLMs', 'BGE Models', 'FastAPI', 'Payload CMS', 'Vector DBs']
+        techStack: ['Python', 'FastAPI', 'LLMs', 'LangChain', 'RAG', 'REST APIs', 'PostgreSQL', 'Redis', 'Vector Search', 'Promptfoo', 'Giskard']
     },
     {
         year: 'Jan 2024 – Jan 2025',
