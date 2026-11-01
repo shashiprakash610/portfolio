@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { SITE, PROJECTS, SKILLS } from '../config'
+import { SITE } from '../config'
+import { portfolioReply } from '../utils/chat'
 
 
 export default function Chatbot() {
@@ -7,7 +8,7 @@ export default function Chatbot() {
     const [messages, setMessages] = useState([
         {
             role: 'assistant',
-            content: `Hey there! 👋 I'm an AI assistant who knows all about ${SITE.name}. Ask me anything about my background, work experience, AI research, or basically anything you're curious about. I'm here to help! 😄`
+            content: `Hi! I’m ${SITE.name}’s portfolio guide. I answer from the facts on this website, without generative AI. Choose a topic below or ask about his background.`
         }
     ])
     const [input, setInput] = useState('')
@@ -22,112 +23,26 @@ export default function Chatbot() {
         scrollToBottom()
     }, [messages])
 
-    const systemPrompt = `You are an AI assistant for ${SITE.name}'s portfolio website. You can answer questions about your professional background, research in AI, data engineering skills, and projects. Here's what you know about Shashi:
+    const sendMessage = (question = input) => {
+        if (!question.trim() || isLoading) return
 
-BASIC INFO:
-Name: ${SITE.name}
-Role: ${SITE.role}
-Email: ${SITE.email}
-Phone: ${SITE.phone}
-Current Location: ${SITE.location}
-About: ${SITE.subhead}
-Background: AI Researcher and Data Engineer with 4+ years of experience in AI research, data engineering, and applied machine learning.
-
-Professional Profile: A results-driven AI Research Engineer and Data Engineer with 4+ years of experience across AI research, data engineering, and applied machine learning in academia and industry. Specialized in Retrieval-Augmented Generation (RAG), scalable data pipelines, and AI-powered conversational systems.
-
-SPECIALIZATIONS:
-- Retrieval-Augmented Generation (RAG)
-- Scalable data pipelines (Vite, FastAPI, PySpark)
-- AI-powered conversational systems & WhatsApp AI Copilot
-- Semantic search, document parsing, and BGE model embeddings
-- Privacy-aware systems & Explainable AI
-- Interactive data visualization (D3.js, React)
-
-PROFESSIONAL BACKGROUND:
-
-PROJECTS:
-${PROJECTS.map(p => `- ${p.title}: ${p.description} (Tech: ${p.stack.join(', ')})`).join('\n')}
-
-SKILLS:
-${Object.entries(SKILLS).map(([category, skills]) => `${category}: ${skills.join(', ')}`).join('\n')}
-
-PERSONALITY & TONE:
-Reply in a professional yet friendly and engaging manner. Shashi has a research-oriented and product-focused mindset. When discussing technical topics (like RAG, BGE models, or ETL pipelines), show deep expertise. Keep responses concise but personable. Emphasize his collaborative nature and strong technical background. If asked about his behavior or character, emphasize that he is a reliable, easygoing, and professional collaborator who values excellence and clear communication.`
-
-
-    const sendMessage = async () => {
-        if (!input.trim() || isLoading) return
-
-        const userMessage = { role: 'user', content: input }
+        const userMessage = { role: 'user', content: question }
         const newMessages = [...messages, userMessage]
         setMessages(newMessages)
         setInput('')
         setIsLoading(true)
 
         try {
-            // Checks if API key is available
-            const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY
-            if (!apiKey || apiKey.trim() === '') {
-                throw new Error('OpenRouter API key not configured. Please check your environment variables.')
-            }
-
-            const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${apiKey}`,
-                    'Content-Type': 'application/json',
-                    'HTTP-Referer': window.location.origin,
-                    'X-Title': `${SITE.name} Portfolio Chatbot`
-                },
-                body: JSON.stringify({
-                    model: 'openai/gpt-3.5-turbo',
-                    messages: [
-                        { role: 'system', content: systemPrompt },
-                        ...newMessages
-                    ],
-                    temperature: 0.7,
-                    max_tokens: 500
-                })
-            })
-
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}))
-                throw new Error(`API request failed: ${response.status} - ${errorData.error?.message || 'Unknown error'}`)
-            }
-
-            const data = await response.json()
-
-            if (!data.choices || !data.choices[0] || !data.choices[0].message) {
-                throw new Error('Invalid response format from API')
-            }
-
-            const assistantMessage = {
-                role: 'assistant',
-                content: data.choices[0].message.content
-            }
-
-            setMessages(prev => [...prev, assistantMessage])
+            const content = portfolioReply(question, messages)
+            setMessages(prev => [...prev, { role: 'assistant', content }])
         } catch (error) {
-            console.error('Chatbot Error:', error)
-
-            let errorMessage = 'Sorry, I encountered an error while processing your request.'
-
-            // Check for specific configuration error
-            if (error.message.includes('OpenRouter API key not configured')) {
-                errorMessage = 'OpenRouter API key is not properly set up. Please check your environment variables.'
-            } else if (error.message.includes('401')) {
-                errorMessage = 'Authentication failed. Please check if the OpenRouter API key is valid.'
-            } else if (error.message.includes('429')) {
-                errorMessage = 'Rate limit exceeded. Please wait a moment and try again.'
-            } else if (error.message.includes('Network')) {
-                errorMessage = 'Network error. Please check your internet connection and try again.'
-            }
-
-            const errorMsg = {
+            setMessages(prev => [...prev, {
                 role: 'assistant',
-                content: errorMessage + ' Please try again.'
-            }
-            setMessages(prev => [...prev, errorMsg])
+                isError: true,
+                content: error.message === 'busy'
+                    ? 'The chat is busy right now. Please wait a minute and try again.'
+                    : `Sorry, I couldn’t reply just now. Please try again, or contact Shashi at ${SITE.email}.`
+            }])
         } finally {
             setIsLoading(false)
         }
@@ -145,6 +60,7 @@ Reply in a professional yet friendly and engaging manner. Shashi has a research-
             {/* Floating Chat Button - Modern Style */}
             {!isOpen && (
                 <button
+                    aria-label="Open chat"
                     onClick={() => setIsOpen(true)}
                     className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 w-14 h-14 sm:w-16 sm:h-16 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center z-50 group"
                 >
@@ -174,11 +90,12 @@ Reply in a professional yet friendly and engaging manner. Shashi has a research-
                                 </svg>
                             </div>
                             <div>
-                                <h3 className="font-semibold text-sm">AI Assistant</h3>
+                                <h3 className="font-semibold text-sm">Portfolio Guide</h3>
                                 <p className="text-xs opacity-90">Ask about Shashi</p>
                             </div>
                         </div>
                         <button
+                            aria-label="Close chat"
                             onClick={() => setIsOpen(false)}
                             className="w-6 h-6 hover:bg-blue-500 rounded-full flex items-center justify-center transition-colors"
                         >
@@ -189,7 +106,7 @@ Reply in a professional yet friendly and engaging manner. Shashi has a research-
                     </div>
 
                     {/* Messages Area - Clean Readable Style */}
-                    <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-gray-900">
+                    <div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-gray-900">
                         {messages.map((message, index) => (
                             <div
                                 key={index}
@@ -219,11 +136,18 @@ Reply in a professional yet friendly and engaging manner. Shashi has a research-
                         <div ref={messagesEndRef} />
                     </div>
 
+                    <div className="flex flex-wrap gap-2 px-4 py-2 bg-white dark:bg-gray-800" aria-label="Suggested topics">
+                        {['Current roles', 'TU Dresden', 'Zeltask', 'Projects', 'Skills', 'Education', 'Contact'].map(topic => (
+                            <button key={topic} onClick={() => sendMessage(topic)} className="text-xs rounded-full border border-blue-400 px-2 py-1 text-blue-700 dark:text-blue-200">{topic}</button>
+                        ))}
+                    </div>
                     {/* Input Area - Modern Style */}
                     <div className="p-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 rounded-b-2xl">
                         <div className="flex gap-2">
                             <input
                                 type="text"
+                                aria-label="Your message"
+                                maxLength={2000}
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyPress={handleKeyPress}
@@ -232,7 +156,8 @@ Reply in a professional yet friendly and engaging manner. Shashi has a research-
                                 disabled={isLoading}
                             />
                             <button
-                                onClick={sendMessage}
+                                aria-label="Send message"
+                                onClick={() => sendMessage()}
                                 disabled={!input.trim() || isLoading}
                                 className="w-10 h-10 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-full flex items-center justify-center transition-colors"
                             >
